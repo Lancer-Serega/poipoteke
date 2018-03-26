@@ -1,0 +1,197 @@
+{% extends "/layout/base-layout.html.twig" %}
+
+{% block title %}Подобрать оценщика{% endblock %}
+
+{% block content %}
+    <div class="ng-cloak" data-ng-controller="RequestController as RequestCtrl"
+         data-ng-class="[RequestCtrl.getStateName(), RequestCtrl.getStepName()]">
+
+        <div class="request ng-cloak"
+             data-ng-show="RequestCtrl.isRatersExists() && RequestCtrl.isRaterSelected()">
+            <div class="divider-large"></div>
+            <div class="row align-center">
+                <div class="small-12 medium-6 large-4 columns">
+                    <form class="form-request text-center" name="requestForm">
+                        <label>ФИО<input type="text" placeholder="Востриков Дмитрий Александрович" name="userName"
+                                         required
+                                         data-ng-class="{'form__input--invalid': requestForm.userName.$touched && requestForm.userName.$error.required}"
+                                         data-ng-model="RequestCtrl.getUserName"
+                                         data-ng-model-options="{getterSetter: true}"></label>
+                        <label>E-mail<input type="email" placeholder="email@example.com" name="userEmail" required
+                                            data-ng-class="{'form__input--invalid': requestForm.userEmail.$touched && (requestForm.userEmail.$error.email || requestForm.userEmail.$error.required)}"
+                                            data-ng-model="RequestCtrl.getUserEmail"
+                                            data-ng-model-options="{getterSetter: true}"></label>
+                        <label>Телефон<input type="text" placeholder="(999) 999-99-99" name="userPhone" required
+                                             data-ng-class="{'form__input--invalid': requestForm.userPhone.$touched && (RequestCtrl.getUserPhone().length !== 15 || requestForm.userPhone.$error.required)}"
+                                             data-ng-model="RequestCtrl.getUserPhone"
+                                             data-ng-model-options="{getterSetter: true}"></label>
+                        <input type="submit" class="button success expanded" value="Отправить"
+                               data-ng-click="RequestCtrl.createRequest()"
+                               data-ng-disabled="requestForm.$invalid || RequestCtrl.getUserPhone().length !== 15">
+                        <a href="#" data-ng-click="RequestCtrl.getRaterSelected()">Вернуться к выбору</a>
+                    </form>
+                </div>
+            </div>
+            <div class="divider-large"></div>
+        </div>
+
+        <div class="raters ng-cloak" data-ng-show="RequestCtrl.isRatersExists()">
+            <div class="divider divider--large"></div>
+
+            <div class="row">
+                <div class="small-12 columns text-center">
+                    <a href="#" data-ng-click="RequestCtrl.prevStep()">Уточнить поиск</a>
+                </div>
+            </div>
+            <div id="best-raters" class="row">
+                <div class="small-12 large-6 columns">
+                    <h3>Лучший по стоимости</h3>
+
+                    <div data-ng-repeat="rater in RequestCtrl.getBestRaterByCost() track by $index">
+                        <div class="divider divider--small"></div>
+                        <h5 data-ng-bind="rater.getName()"></h5>
+
+                        <p><strong>Оценка:</strong> <span
+                                    data-ng-bind="rater.getReportCost()"></span> руб
+                        </p>
+
+                        <p><strong>Готовность:</strong> <span
+                                    data-ng-bind="rater.getReportDateFormat()"></span></p>
+                        <a href="#" class="button success medium" data-ng-click="RequestCtrl.getRaterSelected($index)">Оставить
+                            заявку</a>
+                    </div>
+                </div>
+
+                <div class="small-12 large-6 columns">
+                    <h3>Лучший по времени</h3>
+
+                    <div data-ng-repeat="rater in RequestCtrl.getBestRaterByDate() track by $index">
+                        <div class="divider divider--small"></div>
+                        <h5 data-ng-bind="rater.getName()"></h5>
+
+                        <p><strong>Оценка:</strong> <span data-ng-bind="rater.getReportCost()"></span> руб
+                        </p>
+
+                        <p><strong>Готовность:</strong> <span
+                                    data-ng-bind="rater.getReportDateFormat()"></span></p>
+                        <a href="#" class="button success medium" data-ng-click="RequestCtrl.getRaterSelected($index)">Оставить
+                            заявку</a>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="divider divider--small"></div>
+
+            <div class="row">
+                <div class="small-12 columns">
+                    <h3>Все оценщики</h3>
+
+                    <div class="divider divider--small"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="small-12 large-4 columns"
+                     data-ng-repeat="rater in RequestCtrl.getRaters() track by $index">
+                    <div class="callout">
+                        <h5 data-ng-bind="rater.getName()"></h5>
+
+                        <p><strong>Оценка:</strong> <span
+                                    data-ng-bind="rater.getReportCost()"></span>
+                            руб</p>
+
+                        <p><strong>Готовность:</strong> <span
+                                    data-ng-bind="rater.getReportDateFormat()"></span>
+                        </p>
+                        <a href="#" class="button success medium" data-ng-click="RequestCtrl.getRaterSelected($index)">Оставить
+                            заявку</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row" data-ng-show="RequestCtrl.showRatersListPagination()">
+                <div class="small-12 columns text-center">
+                    <div class="divider divider--medium"></div>
+                    <p><a href="#" data-ng-click="RequestCtrl.prevRatersListPage()">«</a> <span><span
+                                    data-ng-bind="RequestCtrl.getRatersListStartIndex()"></span>-<span
+                                    data-ng-bind="RequestCtrl.getRatersListEndIndex()"></span> из <span
+                                    data-ng-bind="RequestCtrl.getRatersListLength()"></span></span> <a
+                                href="#" data-ng-click="RequestCtrl.nextRatersListPage()">»</a></p>
+                </div>
+            </div>
+
+            <div class="divider divider--large"></div>
+        </div>
+
+        <section class="intro">
+            <div class="row">
+                <div class="small-12 columns">
+                    <h1 class="intro__title">Легко подобрать!</h1>
+
+                    <p class="intro__slogan">Все оценщики вашего банка на одной странице.</p>
+                </div>
+                <div class="small-12 columns">
+                    <form class="form form--shadow-dark" name="searchForm">
+                        <div class="row">
+                            <div class="small-12 medium-6 large-3 columns">
+                                <div class="ui-autocomplete"
+                                     data-provider="RequestCtrl.getBanks()"
+                                     data-selected-suggestion="RequestCtrl.getBankSelected"
+                                     data-validator="RequestCtrl.isValidBank"
+                                     data-name="bank"
+                                     data-placeholder="Банк"
+                                     data-hint-no-results="Совпадений не найдено"></div>
+                            </div>
+                            <div class="small-12 medium-6 large-3 columns">
+                                <div class="ui-autocomplete"
+                                     data-provider="RequestCtrl.getObjectTypes()"
+                                     data-selected-suggestion="RequestCtrl.getObjectTypeSelected"
+                                     data-validator="RequestCtrl.isValidObjectType"
+                                     data-name="objectType"
+                                     data-placeholder="Тип объекта"
+                                     data-hint-no-results="Совпадений не найдено"></div>
+                            </div>
+                            <div class="small-12 medium-6 large-4 columns">
+                                <div class="ui-autocomplete"
+                                     data-provider="RequestCtrl.getAddresses()"
+                                     data-provider-callback="RequestCtrl.updateAddresses"
+                                     data-selected-suggestion="RequestCtrl.getAddressSelected"
+                                     data-validator="RequestCtrl.isValidAddress"
+                                     data-transpose="true"
+                                     data-name="address"
+                                     data-placeholder="Адрес объекта"
+                                     data-hint-search="<b>Пример:</b> <em>Москва, парк Победы</em>"
+                                     data-hint-search-process="Ищем&hellip;"
+                                     data-hint-no-results="Совпадений не найдено"></div>
+                            </div>
+                            <div class="small-12 medium-6 large-2 columns">
+                                <button type="submit" class="button expanded form__button"
+                                        data-ng-class="{disabled: RequestCtrl.isInvalidForm()}"
+                                        data-ng-disabled="RequestCtrl.isInvalidForm()"
+                                        data-ng-if="!RequestCtrl.stateSearchRaters()"
+                                        data-ng-click="RequestCtrl.processSearch()">Подобрать
+                                </button>
+                                <span class="text-center"
+                                      data-ng-if="RequestCtrl.searchRatersProcess()">Подбираем...</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        {#<div class="loader">#}
+        {#<div class="loader-inner">#}
+        {#<label>●</label>#}
+        {#<label>●</label>#}
+        {#<label>●</label>#}
+        {#<label>●</label>#}
+        {#<label>●</label>#}
+        {#<label>●</label>#}
+        {#</div>#}
+        {#</div>#}
+    </div>
+{% endblock %}

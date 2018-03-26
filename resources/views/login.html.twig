@@ -1,0 +1,18 @@
+{% extends "/layout/base-layout.html.twig" %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+    <div class="divider-medium"></div>
+    <div class="row align-center">
+        <div class="small-12 medium-6 large-4 columns">
+            <form action="{{ path('cabinet_login_check') }}" method="post">
+                {{ error }}
+                <input type="text" name="_username" value="{{ last_username }}" />
+                <input type="password" name="_password" value="" />
+                <input type="submit" class="button success expanded" value="Войти" />
+            </form>
+        </div>
+    </div>
+    <div class="divider-medium"></div>
+{% endblock %}

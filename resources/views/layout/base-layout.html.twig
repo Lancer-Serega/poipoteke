@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no, maximum-scale=1">
+        {% block head %}
+            <title>По ипотеке | {% block title %}{% endblock %}</title>
+        {% endblock %}
+        <link rel="stylesheet" href="/../resources/assets/vendor/foundation/css/foundation-flex.css">
+        <link rel="stylesheet" href="/../resources/assets/vendor/foundation-icons/foundation-icons.css">
+        <link rel="stylesheet" href="/../resources/assets/style/app.css">
+    </head>
+    <body data-ng-app="poipoteke">
+        {% block content %}{% endblock %}
+
+        <script type="text/javascript" src="/../resources/assets/vendor/angular/angular.min.js"></script>
+        <script type="text/javascript" src="/../resources/assets/vendor/angular-sanitize/angular-sanitize.min.js"></script>
+        <script type="text/javascript" src="/../resources/assets/vendor/angular-360-no-scope/angular-360-no-scope.js"></script>
+        <script type="text/javascript" src="/../resources/assets/vendor/ngMask/dist/ngMask.min.js"></script>
+
+        <script type="text/javascript" src="/../resources/assets/js/app.js"></script>
+
+        <script type="text/javascript" src="/../resources/assets/js/components/tweaks/tweaks.js"></script>
+
+        <script type="text/javascript" src="/../resources/assets/js/components/data-storage/data-storage.js"></script>
+
+        <script type="text/javascript" src="/../resources/assets/js/components/message-bag/message-bag.js"></script>
+
+        <script type="text/javascript" src="/../resources/assets/js/components/editable/editable.js"></script>
+        <script type="text/javascript" src="/../resources/assets/js/components/editable/editable-text.js"></script>
+        <script type="text/javascript" src="/../resources/assets/js/components/editable/editable-longtext.js"></script>
+        <script type="text/javascript" src="/../resources/assets/js/components/editable/editable-timerange.js"></script>
+
+        <script type="text/javascript" src="/../resources/assets/js/components/ui/module.js"></script>
+        <script type="text/javascript" src="/../resources/assets/js/components/ui/autocomplete/autocomplete.js"></script>
+
+        {#<script type="text/javascript" src="/../resources/assets/js/components/filters/filters.js"></script>#}
+
+        <script type="text/javascript" src="/../resources/assets/js/components/map/map.js"></script>
+
+        <script type="text/javascript" src="/../resources/assets/js/controllers/rater.js"></script>
+
+        <script type="text/javascript" src="/../resources/assets/js/components/service-request/service-request.js"></script>
+        <script type="text/javascript" src="/../resources/assets/js/components/service-request/filters.js"></script>
+        <script type="text/javascript" src="/../resources/assets/js/components/service-request/user.js"></script>
+        <script type="text/javascript" src="/../resources/assets/js/components/service-request/request.js"></script>
+        <script type="text/javascript" src="/../resources/assets/js/components/service-request/rater.js"></script>
+
+        <script type="text/javascript" src="/../resources/assets/js/controllers/request.js"></script>
+
+        {#<script src="//api-maps.yandex.ru/2.0/?load=package.standard,package.route&lang=ru-RU" type="text/javascript"></script>#}
+        <script src="//api-maps.yandex.ru/2.1/?lang=ru-RU" type="text/javascript"></script>
+    </body>
+</html>
